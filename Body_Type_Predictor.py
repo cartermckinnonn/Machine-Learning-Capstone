@@ -91,44 +91,42 @@ def best_model(data, labels, test_percent=0.2, max_neighbors=101, print_graph=Tr
     return best_classifier, best_accuracy, best_n_num
 
 
-def main():
-    profile_data = pd.read_csv('profiles.csv')
+profile_data = pd.read_csv('profiles.csv')
 
-    column_array = ['diet', 'drinks', 'drugs', 'sex', 'smokes', 'income', 'body_type']
+column_array = ['diet', 'drinks', 'drugs', 'sex', 'smokes', 'income', 'body_type']
 
-    replacement_value_arr = [
-        # diet
-        {'mostly anything': 1, 'anything': 2, 'strictly anything': 3, 'mostly vegetarian': 4, 'mostly other': 5, 'strictly vegetarian': 6, 'vegetarian': 7, 'strictly other': 8, 'mostly vegan': 9, 'other': 10, 'strictly vegan': 11, 'vegan': 12, 'mostly kosher': 13, 'mostly halal': 14, 'strictly halal': 15, 'strictly kosher': 16, 'halal': 17, 'kosher': 18},
-        # drinks
-        {'not at all': 1, 'rarely': 2, 'socially': 3, 'often': 4, 'very often': 5, 'desperately': 6},
-        # drugs
-        {'never': 1, 'sometimes': 2, 'often': 3},
-        # sex
-        {'m': 1, 'f': 0},
-        # smokes
-        {'no': 1, 'sometimes': 2, 'when drinking': 3, 'yes': 4, 'trying to quit': 5},
-        # income
-        {-1: 0},
-        # body type
-        {'average': 1, 'fit': 2, 'athletic': 3, 'thin': 4, 'curvy': 5, 'a little extra': 6, 'skinny': 7, 'full figured': 8, 'overweight': 9, 'jacked': 10, 'used up': 11, 'rather not say': 12}
-        ]
+replacement_value_arr = [
+    # diet
+    {'mostly anything': 1, 'anything': 2, 'strictly anything': 3, 'mostly vegetarian': 4, 'mostly other': 5, 'strictly vegetarian': 6, 'vegetarian': 7, 'strictly other': 8, 'mostly vegan': 9, 'other': 10, 'strictly vegan': 11, 'vegan': 12, 'mostly kosher': 13, 'mostly halal': 14, 'strictly halal': 15, 'strictly kosher': 16, 'halal': 17, 'kosher': 18},
+    # drinks
+    {'not at all': 1, 'rarely': 2, 'socially': 3, 'often': 4, 'very often': 5, 'desperately': 6},
+    # drugs
+    {'never': 1, 'sometimes': 2, 'often': 3},
+    # sex
+    {'m': 1, 'f': 0},
+    # smokes
+    {'no': 1, 'sometimes': 2, 'when drinking': 3, 'yes': 4, 'trying to quit': 5},
+    # income
+    {-1: 0},
+    # body type
+    {'average': 1, 'fit': 2, 'athletic': 3, 'thin': 4, 'curvy': 5, 'a little extra': 6, 'skinny': 7, 'full figured': 8, 'overweight': 9, 'jacked': 10, 'used up': 11, 'rather not say': 12}
+    ]
 
     
-    data = format_data(profile_data)
+data = format_data(profile_data)
     
-    # removing the rows where the 'body_type' value is nan
-    data.remove_rows('body_type')
+# removing the rows where the 'body_type' value is nan
+data.remove_rows('body_type')
     
-    # removing all nan values
-    formatted_data = data.remove_nan_replace(column_array, replacement_value_arr)
+# removing all nan values
+formatted_data = data.remove_nan_replace(column_array, replacement_value_arr)
 
-    knn_data = formatted_data[['diet', 'drinks', 'drugs', 'sex', 'smokes', 'income']]
-    knn_labels = formatted_data['body_type']
+knn_data = formatted_data[['diet', 'drinks', 'drugs', 'sex', 'smokes', 'income']]
+knn_labels = formatted_data['body_type']
 
-    best_classifier, accuracy, best_n = best_model(knn_data, knn_labels, print_graph=True)
-    print(best_classifier)
-    print('Best Number of Neighbors: {best_n} neighbors'.format(best_n=best_n))
-    print('Best Accuracy: {accuracy} percent'.format(accuracy=accuracy))
+best_classifier, accuracy, best_n = best_model(knn_data, knn_labels, print_graph=True)
+print(best_classifier)
+print('Best Number of Neighbors: {best_n} neighbors'.format(best_n=best_n))
+print('Best Accuracy: {accuracy} percent'.format(accuracy=accuracy))
 
 
-main()
